@@ -1,16 +1,13 @@
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class menu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void LoadScene(string name)
     {
+        SceneManager.LoadScene(name);
 
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+   
 }
