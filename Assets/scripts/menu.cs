@@ -7,7 +7,5 @@ public class menu : MonoBehaviour
     public void LoadScene(string name)
     {
         SceneManager.LoadScene(name);
-
     }
-   
 }
