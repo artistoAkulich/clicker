@@ -1,54 +1,58 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using YG;
 
 public class autoClick : MonoBehaviour
 {
-    private Data data;
-
     [SerializeField] AudioSource m_AudioSource;
     [SerializeField] AudioClip clickSound;
 
-    public TMP_Text priceText;
+    [SerializeField] public InfoLevel[] levels;
 
-    public float[] table;
+    public TMP_Text priceText;
 
     private float delayAutoClick;
     private float lastTimeAddGold;
 
+
     void Start()
     {
-        data = FindFirstObjectByType<Data>();
         UpdateUI();
     }
 
     void Update()
     {
-        
+
     }
 
-    public void OnClick()
+    public void OnClicked() //обработчик-функция
     {
-        int xLevel = data.levelAutoClick; //Левел клика
-        int price = xLevel * 200; //цена улучшения
-        int playerGold = data.goldCoin;   //денюжки плеера
 
-        if (playerGold >= price)
+        if (YandexGame.savesData.levelAutoClick == levels.Count() - 1)
+            return;
+
+        float price = levels[YandexGame.savesData.levelAutoClick+1].price;
+
+        if (YandexGame.savesData.goldCoin >= price)
         {
-            playerGold -= price;
-            xLevel += 1;
-            m_AudioSource.PlayOneShot(clickSound);
+            YandexGame.savesData.goldCoin -= price;
+            YandexGame.savesData.levelAutoClick += 1;
 
-            data.goldCoin = playerGold;
-            data.levelAutoClick = xLevel;
+            m_AudioSource.PlayOneShot(clickSound);
             UpdateUI();
         }
-        else
-        {
-
-        }
     }
+
     private void UpdateUI()
     {
-        priceText.text = (data.levelXclick * 100).ToString();
+        priceText.text = (levels[YandexGame.savesData.levelAutoClick + 1].price).ToString();
     }
+}
+
+[System.Serializable]
+public class InfoLevel
+{
+    public float valueDelay;
+    public int price;
 }

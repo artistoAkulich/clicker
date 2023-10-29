@@ -1,10 +1,9 @@
 using TMPro;
 using UnityEngine;
+using YG;
 
 public class jelly : MonoBehaviour
 {
-    [SerializeField] private Data data;
-
     [SerializeField] private TMP_Text jellyCoinText;
     [SerializeField] private TMP_Text goldCoinText;
 
@@ -12,7 +11,7 @@ public class jelly : MonoBehaviour
     [SerializeField] float IntervalClickTimeAntiCheat;
     [SerializeField] Animator AnimatorAnticheat;
 
-    private int AntiClick = 1;
+    private bool AntiClick = false;
     private float lastClickTime = 0;
     private float minIntervalClickTime = 100;
     private SpawnObjectOnMouse spawnObject;
@@ -24,33 +23,43 @@ public class jelly : MonoBehaviour
 
     public void ChangeAntiClick()
     {
-        AntiClick = 1;
+        AntiClick = true;
     }
     public void OnClick()
     {
-        minIntervalClickTime = Time.time - lastClickTime;
-        lastClickTime = Time.time;
-        
-        if (minIntervalClickTime < IntervalClickTimeAntiCheat)
-        {
-            AnimatorAnticheat.SetBool("notify", true);
-            AntiClick = 0;
-        }
+        AntiChit();
+        AddGold();
     }
 
     public void AddGold()
     {
-        if (AntiClick != 0)
+        if (AntiClick == false)
         {
-            spawnObject.SpawnObject();
+            if (YandexGame.savesData.levelXclick > 0)
+            {
+                spawnObject.SpawnObject();
+            }
+
             animator.SetTrigger("doTouch");
-            data.goldCoin += data.levelXclick;
+            YandexGame.savesData.goldCoin += YandexGame.savesData.levelXclick;
+        }
+    }
+
+    private void AntiChit()
+    {
+        minIntervalClickTime = Time.time - lastClickTime;
+        lastClickTime = Time.time;
+
+        if (minIntervalClickTime < IntervalClickTimeAntiCheat)
+        {
+            AnimatorAnticheat.SetBool("notify", true);
+            AntiClick = true;
         }
     }
 
     private void Update()
     {
-        jellyCoinText.text = data.jellyCoin.ToString();
-        goldCoinText.text = data.goldCoin.ToString();
+        jellyCoinText.text = YandexGame.savesData.jellyCoin.ToString();
+        goldCoinText.text = YandexGame.savesData.goldCoin.ToString();
     }
 }
