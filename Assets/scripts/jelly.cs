@@ -11,7 +11,7 @@ public class jelly : MonoBehaviour
     [SerializeField] float IntervalClickTimeAntiCheat;
     [SerializeField] Animator AnimatorAnticheat;
 
-    private bool AntiClick = false;
+    private bool isCheater = false;
     private float lastClickTime = 0;
     private float minIntervalClickTime = 100;
     private SpawnObjectOnMouse spawnObject;
@@ -23,21 +23,21 @@ public class jelly : MonoBehaviour
 
     public void ChangeAntiClick()
     {
-        AntiClick = true;
+        isCheater = false;
     }
     public void OnClick()
     {
         AntiChit();
-        AddGold();
+        AddGold(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 
-    public void AddGold()
+    public void AddGold(Vector3 pos)
     {
-        if (AntiClick == false)
+        if (isCheater == false)
         {
             if (YandexGame.savesData.levelXclick > 0)
             {
-                spawnObject.SpawnObject();
+                spawnObject.SpawnObject(pos);
             }
 
             animator.SetTrigger("doTouch");
@@ -53,7 +53,7 @@ public class jelly : MonoBehaviour
         if (minIntervalClickTime < IntervalClickTimeAntiCheat)
         {
             AnimatorAnticheat.SetBool("notify", true);
-            AntiClick = true;
+            isCheater = true;
         }
     }
 

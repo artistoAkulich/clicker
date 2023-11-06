@@ -5,6 +5,7 @@ using YG;
 public class xclicks : MonoBehaviour
 {
     [SerializeField] AudioSource m_AudioSource;
+    [SerializeField] TMP_Text info;
     [SerializeField] AudioClip clickSound;
     public TMP_Text priceText;
 
@@ -27,6 +28,11 @@ public class xclicks : MonoBehaviour
     }
     private void UpdateUI()
     {
+        if (YandexGame.savesData.levelXclick != 0)
+        {
+            info.gameObject.SetActive(true);
+            info.text = "xclick: " + YandexGame.savesData.levelXclick.ToString();
+        }
         priceText.text = (YandexGame.savesData.levelXclick * 100).ToString();
     }
 }
