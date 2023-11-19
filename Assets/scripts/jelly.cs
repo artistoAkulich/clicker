@@ -11,6 +11,9 @@ public class jelly : MonoBehaviour
     [SerializeField] float IntervalClickTimeAntiCheat;
     [SerializeField] Animator AnimatorAnticheat;
 
+    [SerializeField] AudioSource AudioSource;
+    [SerializeField] AudioClip audioclip;
+
     private bool isCheater = false;
     private float lastClickTime = 0;
     private float minIntervalClickTime = 100;
@@ -28,6 +31,10 @@ public class jelly : MonoBehaviour
     public void OnClick()
     {
         AntiChit();
+        if (isCheater == false) 
+        {
+            AudioSource.PlayOneShot(audioclip);
+        } 
         AddGold(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 

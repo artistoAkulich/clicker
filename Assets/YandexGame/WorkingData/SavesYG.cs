@@ -24,7 +24,7 @@ namespace YG
         public int levelAutoClick = 0;
 
         // ...
-
+        public int rebirth; 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны
 
 
