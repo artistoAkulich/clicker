@@ -1,11 +1,13 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CheatCode : MonoBehaviour
 {
     public List<KeyCode> cheatCode;
     private List<KeyCode> currentKeys;
     private int index;
+
+    private float lastTimeKey;
 
     private void Start()
     {
@@ -17,6 +19,7 @@ public class CheatCode : MonoBehaviour
         // Если была нажата какая-либо клавиша
         if (Input.anyKeyDown)
         {
+            lastTimeKey = Time.time;
             // Проверяем каждую клавишу в читкоде
             foreach (KeyCode key in cheatCode)
             {
@@ -32,6 +35,11 @@ public class CheatCode : MonoBehaviour
                 ExecuteCheat();
                 currentKeys.Clear(); // очистите список после выполнения функции
             }
+        }
+
+        if (lastTimeKey + 3 < Time.time)
+        {
+            currentKeys.Clear();
         }
     }
 
@@ -50,7 +58,7 @@ public class CheatCode : MonoBehaviour
 
     private void ExecuteCheat()
     {
-        YG.YandexGame.savesData.goldCoin += 10000;
+        YG.YandexGame.savesData.goldCoin += 10000000;
         Debug.Log("Читкод активирован!");
     }
 }

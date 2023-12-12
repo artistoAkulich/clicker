@@ -9,13 +9,17 @@ public class xclicks : MonoBehaviour
     [SerializeField] AudioClip clickSound;
     public TMP_Text priceText;
 
+    private void Update()
+    {
+        UpdateUI();
+    }
     void Start()
     {
         UpdateUI();
     }
     public void OnClick()
     {
-        float price = YandexGame.savesData.levelXclick * 100;
+        float price = YandexGame.savesData.levelXclick * 150;
 
         if (YandexGame.savesData.goldCoin >= price)
         {
@@ -31,8 +35,8 @@ public class xclicks : MonoBehaviour
         if (YandexGame.savesData.levelXclick != 0)
         {
             info.gameObject.SetActive(true);
-            info.text = "xclick: " + YandexGame.savesData.levelXclick.ToString();
+            
         }
-        priceText.text = (YandexGame.savesData.levelXclick * 100).ToString();
+        priceText.text = (YandexGame.savesData.levelXclick * 150).ToString();
     }
 }

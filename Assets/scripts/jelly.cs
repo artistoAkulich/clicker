@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using YG;
@@ -13,11 +14,19 @@ public class jelly : MonoBehaviour
 
     [SerializeField] AudioSource AudioSource;
     [SerializeField] AudioClip audioclip;
+    [SerializeField] TMP_Text info;
+    [SerializeField] GameObject X2Button;
 
     private bool isCheater = false;
     private float lastClickTime = 0;
     private float minIntervalClickTime = 100;
     private SpawnObjectOnMouse spawnObject;
+
+    [HideInInspector]
+    public float boost = 1;
+
+    [HideInInspector]
+    public float boostADS = 1;
 
     private void Awake()
     {
@@ -38,6 +47,21 @@ public class jelly : MonoBehaviour
         AddGold(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 
+    public void BoostADS()
+    {
+        StartCoroutine(startADS());
+    }
+
+    IEnumerator startADS()
+    {
+        boostADS = 2;
+        X2Button.SetActive(false);
+
+        yield return new WaitForSeconds(30);
+        boostADS = 1;
+        X2Button.SetActive(true);
+    }
+
     public void AddGold(Vector3 pos)
     {
         if (isCheater == false)
@@ -48,7 +72,7 @@ public class jelly : MonoBehaviour
             }
 
             animator.SetTrigger("doTouch");
-            YandexGame.savesData.goldCoin += YandexGame.savesData.levelXclick;
+            YandexGame.savesData.goldCoin += YandexGame.savesData.levelXclick * boost * boostADS;
         }
     }
 
@@ -68,5 +92,6 @@ public class jelly : MonoBehaviour
     {
         jellyCoinText.text = YandexGame.savesData.jellyCoin.ToString();
         goldCoinText.text = YandexGame.savesData.goldCoin.ToString();
+        info.text = "xclick: " + (YandexGame.savesData.levelXclick * boost * boostADS).ToString();
     }
 }

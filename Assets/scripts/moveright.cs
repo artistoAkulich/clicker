@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Nmoveright : MonoBehaviour
 {
-    [SerializeField] private int speed;
+    [SerializeField] private float speed;
 
     [SerializeField] private Vector3 startPos;
 
