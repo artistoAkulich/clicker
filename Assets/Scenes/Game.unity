@@ -3458,7 +3458,7 @@ MonoBehaviour:
   additionalText: {fileID: 0}
   textHeight: 20
   processTranslateLabel: 
-  componentTextField: 1
+  componentTextField: 0
   countLang: 0
 --- !u!1 &1217184677
 GameObject:
