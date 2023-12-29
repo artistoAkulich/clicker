@@ -54,7 +54,7 @@ public class rebirth : MonoBehaviour
 
     void Update()
     {
-        if (price <= YG.YandexGame.savesData.goldCoin || YandexGame.savesData.rebirth == ID - 1)
+        if (price <= YG.YandexGame.savesData.goldCoin && YandexGame.savesData.rebirth == ID - 1)
         {
             image.color = Color.white;
             button.gameObject.SetActive(true);
